@@ -14,6 +14,7 @@ function handleFiles() {
         return;
     }
     var SHA256 = CryptoJS.algo.SHA256.create();
+    var SHA512 = CryptoJS.algo.SHA512.create();
     var counter = 0;
     var self = this;
 
@@ -27,12 +28,15 @@ function handleFiles() {
         function (data) {
             var wordBuffer = CryptoJS.lib.WordArray.create(data);
             SHA256.update(wordBuffer);
+            SHA512.update(wordBuffer);
             counter += data.byteLength;
             //console.log((( counter / file.size)*100).toFixed(0) + '%');
         }, function (data) {
             //console.log('100%');
             var encrypted = SHA256.finalize().toString();
+            var encrypted512 = SHA512.finalize().toString();
             $("#hash").val(encrypted);
+            $("#hash512").val(encrypted512);
             timeEnd = new Date().getTime();
 
             $("#timeStart").val(new Date(timeStart));
